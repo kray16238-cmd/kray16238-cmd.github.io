@@ -262,3 +262,30 @@ footer{
 }
 
 }
+
+/* Rating */
+
+.rating-box{
+    text-align:center;
+    margin:30px 0;
+}
+
+.stars{
+    font-size:40px;
+    cursor:pointer;
+}
+
+.star{
+    color:#888;
+    transition:0.3s;
+}
+
+.star.active{
+    color:gold;
+}
+
+#rating-text{
+    color:white;
+    margin-top:10px;
+    font-size:18px;
+}
