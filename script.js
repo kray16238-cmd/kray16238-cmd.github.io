@@ -60,3 +60,22 @@ window.addEventListener("scroll",function(){
     }
 
 });
+
+// ===========================
+// Rating
+// ===========================
+
+const stars = document.querySelectorAll(".star");
+const text = document.getElementById("rating-text");
+
+stars.forEach((star, index) => {
+    star.addEventListener("click", () => {
+        stars.forEach(s => s.classList.remove("active"));
+
+        for(let i = 0; i <= index; i++){
+            stars[i].classList.add("active");
+        }
+
+        text.innerHTML = `Thanks for rating ${index + 1} ⭐`;
+    });
+});
