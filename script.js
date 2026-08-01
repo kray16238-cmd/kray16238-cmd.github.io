@@ -62,20 +62,60 @@ window.addEventListener("scroll",function(){
 });
 
 // ===========================
-// Rating
+// Rating (simple "Rate This Website" box)
 // ===========================
 
-const stars = document.querySelectorAll(".star");
-const text = document.getElementById("rating-text");
+const ratingBoxStars = document.querySelectorAll(".rating-box .star");
+const ratingText = document.getElementById("rating-text");
 
-stars.forEach((star, index) => {
+ratingBoxStars.forEach((star, index) => {
     star.addEventListener("click", () => {
-        stars.forEach(s => s.classList.remove("active"));
+        ratingBoxStars.forEach(s => s.classList.remove("active"));
 
         for(let i = 0; i <= index; i++){
-            stars[i].classList.add("active");
+            ratingBoxStars[i].classList.add("active");
         }
 
-        text.innerHTML = `Thanks for rating ${index + 1} ⭐`;
+        ratingText.innerHTML = `Thanks for rating ${index + 1} ⭐`;
     });
+});
+
+// ===========================
+// Rate & Review box
+// ===========================
+
+const reviewStars = document.querySelectorAll(".review-box .star");
+const submitBtn = document.getElementById("submit-rating");
+const reviewRatingText = document.getElementById("review-rating-text");
+const review = document.getElementById("review");
+
+let selectedRating = 0;
+
+reviewStars.forEach((star, index) => {
+    star.addEventListener("click", () => {
+        selectedRating = index + 1;
+
+        reviewStars.forEach(s => s.classList.remove("active"));
+
+        for(let i = 0; i <= index; i++){
+            reviewStars[i].classList.add("active");
+        }
+    });
+});
+
+submitBtn.addEventListener("click", () => {
+
+    if(selectedRating === 0){
+        reviewRatingText.innerHTML = "⭐ Please select a rating.";
+        return;
+    }
+
+    if(review.value.trim() === ""){
+        reviewRatingText.innerHTML = "📝 Please write a review.";
+        return;
+    }
+
+    reviewRatingText.innerHTML = `✅ Thank you for your ${selectedRating}⭐ review!`;
+
+    review.value = "";
 });
