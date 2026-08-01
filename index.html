@@ -1,3 +1,5 @@
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,6 +38,56 @@
         }
         #rating-text {
             margin-top: 10px;
+            font-size: 1rem;
+            color: #ccc;
+        }
+
+        /* Review box */
+        .review-box {
+            text-align: center;
+            padding: 40px 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .review-box h2 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+        .review-box textarea {
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto 0;
+            display: block;
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid #333;
+            background: #222;
+            color: #fff;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+        }
+        .review-box textarea:focus {
+            outline: none;
+            border-color: gold;
+        }
+        .review-box button#submit-rating {
+            margin-top: 15px;
+            padding: 10px 28px;
+            border: none;
+            border-radius: 6px;
+            background: gold;
+            color: #111;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.15s;
+        }
+        .review-box button#submit-rating:hover {
+            transform: scale(1.05);
+        }
+        #review-rating-text {
+            margin-top: 12px;
             font-size: 1rem;
             color: #ccc;
         }
@@ -180,6 +232,25 @@
     <p id="rating-text">Click a star to rate!</p>
 </section>
 
+<!-- Review -->
+<section class="review-box">
+    <h2>Rate & Review Our Website</h2>
+
+    <div class="stars">
+        <span class="star" data-value="1">★</span>
+        <span class="star" data-value="2">★</span>
+        <span class="star" data-value="3">★</span>
+        <span class="star" data-value="4">★</span>
+        <span class="star" data-value="5">★</span>
+    </div>
+
+    <textarea id="review" placeholder="Write your review here..." rows="5"></textarea>
+
+    <button id="submit-rating">Submit Review</button>
+
+    <p id="review-rating-text"></p>
+</section>
+
 <!-- Footer -->
 <footer>
     <h3>Asian Drama & Movies Hub</h3>
@@ -199,20 +270,54 @@
 
 <script src="script.js"></script>
 <script>
-    const stars = document.querySelectorAll('.star');
+    // Simple "Rate This Website" star widget
+    const ratingBoxStars = document.querySelectorAll('.rating-box .star');
     const ratingText = document.getElementById('rating-text');
 
-    stars.forEach(star => {
+    ratingBoxStars.forEach(star => {
         star.addEventListener('click', () => {
             const value = parseInt(star.dataset.value);
 
-            stars.forEach(s => {
+            ratingBoxStars.forEach(s => {
                 s.classList.toggle('active', parseInt(s.dataset.value) <= value);
             });
 
             ratingText.textContent = `You rated this ${value} star${value > 1 ? 's' : ''}!`;
         });
     });
+
+    // "Rate & Review" widget
+    const reviewStars = document.querySelectorAll('.review-box .star');
+    const reviewTextarea = document.getElementById('review');
+    const submitReviewBtn = document.getElementById('submit-rating');
+    const reviewRatingText = document.getElementById('review-rating-text');
+    let selectedReviewRating = 0;
+
+    reviewStars.forEach(star => {
+        star.addEventListener('click', () => {
+            selectedReviewRating = parseInt(star.dataset.value);
+
+            reviewStars.forEach(s => {
+                s.classList.toggle('active', parseInt(s.dataset.value) <= selectedReviewRating);
+            });
+        });
+    });
+
+    submitReviewBtn.addEventListener('click', () => {
+        const reviewValue = reviewTextarea.value.trim();
+
+        if (selectedReviewRating === 0) {
+            reviewRatingText.textContent = 'Please select a star rating first.';
+            return;
+        }
+
+        reviewRatingText.textContent = reviewValue === ''
+            ? `Thanks for the ${selectedReviewRating}-star rating!`
+            : `Thanks for your ${selectedReviewRating}-star review!`;
+
+        reviewTextarea.value = '';
+    });
 </script>
 </body>
 </html>
+```
